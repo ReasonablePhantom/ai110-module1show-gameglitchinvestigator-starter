@@ -57,7 +57,7 @@ and (b) prove it with an automated test. For example, after fixing the hints I r
 showed `check_guess(60, 50)` returns `"Too High"` and `check_guess(40, 50)` returns `"Too Low"`.
 For the invalid-input bug I added `test_blank_input_is_rejected`, which confirmed
 `parse_guess(" ")` returns `ok = False` so the app can skip counting it as an attempt. In the
-end all **8 tests passed**. The AI helped me design the new tests by suggesting small,
+end all **26 tests passed**. The AI helped me design the new tests by suggesting small,
 single-purpose cases (one assertion each), and I reviewed every one to make sure it actually
 matched the behavior I wanted rather than just passing.
 

@@ -75,18 +75,36 @@ secret, score, and history for testing.
 ```
 $ python -m pytest -v
 ============================= test session starts ==============================
-collected 8 items
+collected 26 items
 
-tests/test_game_logic.py::test_winning_guess PASSED                      [ 12%]
-tests/test_game_logic.py::test_guess_too_high PASSED                     [ 25%]
-tests/test_game_logic.py::test_guess_too_low PASSED                      [ 37%]
-tests/test_game_logic.py::test_blank_input_is_rejected PASSED            [ 50%]
-tests/test_game_logic.py::test_non_number_is_rejected PASSED             [ 62%]
-tests/test_game_logic.py::test_valid_number_is_parsed PASSED             [ 75%]
-tests/test_game_logic.py::test_wrong_guess_costs_five_points PASSED      [ 87%]
-tests/test_game_logic.py::test_first_attempt_win_awards_full_points PASSED [100%]
+tests/test_game_logic.py::test_winning_guess PASSED                      [  3%]
+tests/test_game_logic.py::test_guess_too_high PASSED                     [  7%]
+tests/test_game_logic.py::test_guess_too_low PASSED                      [ 11%]
+tests/test_game_logic.py::test_blank_input_is_rejected PASSED            [ 15%]
+tests/test_game_logic.py::test_non_number_is_rejected PASSED             [ 19%]
+tests/test_game_logic.py::test_valid_number_is_parsed PASSED             [ 23%]
+tests/test_game_logic.py::test_wrong_guess_costs_five_points PASSED      [ 26%]
+tests/test_game_logic.py::test_first_attempt_win_awards_full_points PASSED [ 30%]
+tests/test_game_logic.py::test_parse_guess_none PASSED                   [ 34%]
+tests/test_game_logic.py::test_parse_guess_float_string_truncates PASSED [ 38%]
+tests/test_game_logic.py::test_parse_guess_zero PASSED                   [ 42%]
+tests/test_game_logic.py::test_parse_guess_leading_trailing_spaces PASSED [ 46%]
+tests/test_game_logic.py::test_parse_guess_below_range PASSED            [ 50%]
+tests/test_game_logic.py::test_parse_guess_above_range PASSED            [ 53%]
+tests/test_game_logic.py::test_parse_guess_negative_out_of_range PASSED  [ 57%]
+tests/test_game_logic.py::test_parse_guess_boundary_low_is_valid PASSED  [ 61%]
+tests/test_game_logic.py::test_parse_guess_boundary_high_is_valid PASSED [ 65%]
+tests/test_game_logic.py::test_parse_guess_no_range_skips_check PASSED   [ 69%]
+tests/test_game_logic.py::test_check_guess_one_below_secret PASSED       [ 73%]
+tests/test_game_logic.py::test_check_guess_one_above_secret PASSED       [ 76%]
+tests/test_game_logic.py::test_update_score_late_win_floor PASSED        [ 80%]
+tests/test_game_logic.py::test_update_score_very_late_win_stays_at_floor PASSED [ 84%]
+tests/test_game_logic.py::test_update_score_unknown_outcome_unchanged PASSED [ 88%]
+tests/test_game_logic.py::test_get_range_easy PASSED                     [ 92%]
+tests/test_game_logic.py::test_get_range_hard PASSED                     [ 96%]
+tests/test_game_logic.py::test_get_range_unknown_difficulty_defaults PASSED [100%]
 
-============================== 8 passed in 0.03s ===============================
+============================== 26 passed in 0.02s ==============================
 ```
 
 ## 🚀 Stretch Features
