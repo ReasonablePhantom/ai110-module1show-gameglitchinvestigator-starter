@@ -10,11 +10,13 @@ def get_range_for_difficulty(difficulty: str):
     return 1, 100
 
 
-def parse_guess(raw: str):
+def parse_guess(raw: str, low: int = None, high: int = None):
     """
     Parse user input into an int guess.
 
     Returns: (ok: bool, guess_int: int | None, error_message: str | None)
+
+    Pass low/high to enforce a valid range; omit them to skip range validation.
     """
     # FIX: Refactored from app.py. Treat None / empty / whitespace-only as "no guess"
     # so the caller can avoid burning an attempt on invalid input (bug #3).
@@ -31,6 +33,11 @@ def parse_guess(raw: str):
             value = int(raw)
     except Exception:
         return False, None, "That is not a number."
+
+    # Range check: out-of-range numbers are not valid guesses.
+    if low is not None and high is not None:
+        if not (low <= value <= high):
+            return False, None, f"Enter a number between {low} and {high}."
 
     return True, value, None
 

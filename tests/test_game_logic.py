@@ -76,6 +76,42 @@ def test_parse_guess_leading_trailing_spaces():
     assert ok is True
     assert value == 42
 
+def test_parse_guess_below_range():
+    # 0 is outside 1-100; should be rejected without burning an attempt.
+    ok, value, err = parse_guess("0", low=1, high=100)
+    assert ok is False
+    assert value is None
+    assert "1" in err and "100" in err
+
+def test_parse_guess_above_range():
+    # 101 is outside 1-100; should be rejected.
+    ok, _, _ = parse_guess("101", low=1, high=100)
+    assert ok is False
+
+def test_parse_guess_negative_out_of_range():
+    # Negative number outside 1-100 should be rejected.
+    ok, _, _ = parse_guess("-5", low=1, high=100)
+    assert ok is False
+
+def test_parse_guess_boundary_low_is_valid():
+    # The lowest value in range (1) should be accepted.
+    ok, value, _ = parse_guess("1", low=1, high=100)
+    assert ok is True
+    assert value == 1
+
+def test_parse_guess_boundary_high_is_valid():
+    # The highest value in range (100) should be accepted.
+    ok, value, _ = parse_guess("100", low=1, high=100)
+    assert ok is True
+    assert value == 100
+
+def test_parse_guess_no_range_skips_check():
+    # Without low/high, any valid integer passes (backward-compat for tests that
+    # call parse_guess without range args).
+    ok, value, _ = parse_guess("0")
+    assert ok is True
+    assert value == 0
+
 # check_guess edge cases
 def test_check_guess_one_below_secret():
     # Off-by-one below should still be "Too Low", not "Win".

@@ -104,7 +104,7 @@ if st.session_state.status != "playing":
     st.stop()
 
 if submit:
-    ok, guess_int, err = parse_guess(raw_guess)
+    ok, guess_int, err = parse_guess(raw_guess, low=low, high=high)
 
     if not ok:
         # FIX: Invalid input no longer costs an attempt; just show the message (bug #3).
