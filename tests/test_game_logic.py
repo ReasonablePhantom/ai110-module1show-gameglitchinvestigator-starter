@@ -1,4 +1,4 @@
-from logic_utils import check_guess, parse_guess, update_score
+from logic_utils import check_guess, parse_guess, update_score, get_range_for_difficulty
 
 def test_winning_guess():
     # If the secret is 50 and guess is 50, it should be a win
@@ -47,3 +47,64 @@ def test_wrong_guess_costs_five_points():
 def test_first_attempt_win_awards_full_points():
     # A win on the first attempt awards the full 100-point bonus.
     assert update_score(0, "Win", 1) == 100
+
+
+# --- Edge cases ---
+
+# parse_guess edge cases
+def test_parse_guess_none():
+    # None input (Streamlit can pass None before the user types anything).
+    ok, value, _ = parse_guess(None)
+    assert ok is False
+    assert value is None
+
+def test_parse_guess_float_string_truncates():
+    # "3.7" should be accepted and truncated to int 3, not rejected.
+    ok, value, _ = parse_guess("3.7")
+    assert ok is True
+    assert value == 3
+
+def test_parse_guess_zero():
+    # Zero is a valid integer — should not be treated as falsy/empty.
+    ok, value, _ = parse_guess("0")
+    assert ok is True
+    assert value == 0
+
+def test_parse_guess_leading_trailing_spaces():
+    # "  42  " should parse to 42, not be rejected as blank.
+    ok, value, _ = parse_guess("  42  ")
+    assert ok is True
+    assert value == 42
+
+# check_guess edge cases
+def test_check_guess_one_below_secret():
+    # Off-by-one below should still be "Too Low", not "Win".
+    assert check_guess(49, 50) == "Too Low"
+
+def test_check_guess_one_above_secret():
+    # Off-by-one above should still be "Too High", not "Win".
+    assert check_guess(51, 50) == "Too High"
+
+# update_score edge cases
+def test_update_score_late_win_floor():
+    # A win on attempt 10 would give 100 - 10*9 = 10 (the minimum floor).
+    assert update_score(0, "Win", 10) == 10
+
+def test_update_score_very_late_win_stays_at_floor():
+    # Past the floor (attempt 15 would give 100 - 10*14 = -40), clamped to 10.
+    assert update_score(0, "Win", 15) == 10
+
+def test_update_score_unknown_outcome_unchanged():
+    # An unrecognised outcome should leave the score exactly as-is.
+    assert update_score(77, "Banana", 3) == 77
+
+# get_range_for_difficulty edge cases
+def test_get_range_easy():
+    assert get_range_for_difficulty("Easy") == (1, 20)
+
+def test_get_range_hard():
+    assert get_range_for_difficulty("Hard") == (1, 50)
+
+def test_get_range_unknown_difficulty_defaults():
+    # An unrecognised difficulty should fall back to the Normal range.
+    assert get_range_for_difficulty("Impossible") == (1, 100)

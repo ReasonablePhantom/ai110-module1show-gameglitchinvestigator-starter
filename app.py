@@ -109,8 +109,11 @@ if submit:
     if not ok:
         # FIX: Invalid input no longer costs an attempt; just show the message (bug #3).
         st.error(err)
+    elif guess_int in st.session_state.history:
+        # Duplicate guess: show a reminder but don't burn an attempt.
+        st.info(f"{guess_int} is already in your history. Try a different number!")
     else:
-        # FIX: Only a valid guess counts as an attempt.
+        # FIX: Only a valid, non-duplicate guess counts as an attempt.
         st.session_state.attempts += 1
         st.session_state.history.append(guess_int)
 
