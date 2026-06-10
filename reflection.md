@@ -20,6 +20,7 @@ handled inconsistently between turns.
 | Guesses 50, 25, 15, 1 (secret was higher, e.g. 98) | When the guess is too low, the hint should say "Go HIGHER!" | Hint always said "📉 Go LOWER!", pushing me away from the answer | none |
 | Correct number guessed on an even-numbered attempt | "🎉 Correct!" / win | Not recognized as a win — the secret was compared as a string, so an int guess never matched | none |
 | A blank space `" "` submitted as a guess | Show "That is not a number." and keep my attempts left the same | Showed the error **but still subtracted one attempt** (Attempts left dropped) | none |
+| Typed `0` after the out-of-range fix was applied and Streamlit was still running | Show "Enter a number between 1 and 100." with no attempt lost | App crashed with a red error screen | `TypeError: parse_guess() got an unexpected keyword argument 'low'` — Python loaded a stale compiled `.pyc` from `__pycache__` instead of the updated source file. Fixed by deleting `__pycache__` and restarting Streamlit. |
 
 <!-- EDIT: swap in the exact numbers/secret you actually saw while playing if they differ. -->
 
