@@ -17,12 +17,10 @@ handled inconsistently between turns.
 
 | Input | Expected Behavior | Actual Behavior | Console Output / Error |
 |-------|-------------------|-----------------|------------------------|
-| Guesses 50, 25, 15, 1 (secret was higher, e.g. 98) | When the guess is too low, the hint should say "Go HIGHER!" | Hint always said "📉 Go LOWER!", pushing me away from the answer | none |
+| Guesses 50 → 25 → 12 → 18 → 15 → 16 → 17 (secret was 17, Normal difficulty 1–100) | Each hint should point toward 17 — e.g. guess 50 should say "Go LOWER!", guess 12 should say "Go HIGHER!" | Hints were inverted: guess 50 (too high) showed "📈 Go HIGHER!", guess 12 (too low) showed "📉 Go LOWER!" — pushing away from the answer every time | none |
 | Correct number guessed on an even-numbered attempt | "🎉 Correct!" / win | Not recognized as a win — the secret was compared as a string, so an int guess never matched | none |
 | A blank space `" "` submitted as a guess | Show "That is not a number." and keep my attempts left the same | Showed the error **but still subtracted one attempt** (Attempts left dropped) | none |
 | Typed `0` after the out-of-range fix was applied and Streamlit was still running | Show "Enter a number between 1 and 100." with no attempt lost | App crashed with a red error screen | `TypeError: parse_guess() got an unexpected keyword argument 'low'` — Python loaded a stale compiled `.pyc` from `__pycache__` instead of the updated source file. Fixed by deleting `__pycache__` and restarting Streamlit. |
-
-<!-- EDIT: swap in the exact numbers/secret you actually saw while playing if they differ. -->
 
 ---
 
@@ -46,7 +44,6 @@ stored in `session_state`. The real bug was different: on **even** attempts the 
 `secret = str(secret)`, so the comparison broke. I verified by reading `app.py` and noticing
 the `str()` conversion, not by trusting the "state reset" explanation.
 
-<!-- EDIT: if you actually used ChatGPT/Copilot/Gemini too, mention which and where. -->
 
 ---
 
